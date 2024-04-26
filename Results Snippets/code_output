@@ -1,0 +1,78 @@
+
+Number of Processors : 1
+Best Task Schedule:
+Task 0 -> Processor 0
+Task 4 -> Processor 0
+Task 2 -> Processor 0
+Task 1 -> Processor 0
+Task 8 -> Processor 0
+Task 6 -> Processor 0
+Task 5 -> Processor 0
+Task 3 -> Processor 0
+Task 7 -> Processor 0
+Makespan: 22
+
+Number of Processors : 2
+Best Task Schedule:
+Task 2 -> Processor 0
+Task 1 -> Processor 1
+Task 5 -> Processor 0
+Task 3 -> Processor 1
+Task 0 -> Processor 0
+Task 7 -> Processor 1
+Task 6 -> Processor 0
+Task 8 -> Processor 1
+Task 4 -> Processor 0
+Makespan: 14
+
+Number of Processors : 3
+Best Task Schedule:
+Task 0 -> Processor 0
+Task 4 -> Processor 1
+Task 1 -> Processor 2
+Task 5 -> Processor 0
+Task 6 -> Processor 1
+Task 3 -> Processor 2
+Task 7 -> Processor 0
+Task 2 -> Processor 1
+Task 8 -> Processor 2
+Makespan: 8
+
+Number of Processors : 4
+Best Task Schedule:
+Task 4 -> Processor 0
+Task 0 -> Processor 1
+Task 3 -> Processor 2
+Task 7 -> Processor 3
+Task 5 -> Processor 0
+Task 6 -> Processor 1
+Task 8 -> Processor 2
+Task 1 -> Processor 3
+Task 2 -> Processor 0
+Makespan: 5
+
+Number of Processors : 5
+Best Task Schedule:
+Task 0 -> Processor 0
+Task 4 -> Processor 1
+Task 2 -> Processor 2
+Task 1 -> Processor 3
+Task 8 -> Processor 4
+Task 6 -> Processor 0
+Task 5 -> Processor 1
+Task 3 -> Processor 2
+Task 7 -> Processor 3
+Makespan: 5
+
+Number of Processors : 10
+Best Task Schedule:
+Task 7 -> Processor 0
+Task 3 -> Processor 1
+Task 1 -> Processor 2
+Task 4 -> Processor 3
+Task 5 -> Processor 4
+Task 2 -> Processor 5
+Task 6 -> Processor 6
+Task 0 -> Processor 7
+Task 8 -> Processor 8
+Makespan: 5
