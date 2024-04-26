@@ -1,0 +1,28 @@
+All the parameters, related to the problem are assumed to be deterministic. 
+Also, it is assumed that there are M homogeneous processors in the multiprocessor system and N tasks. 
+Job/tasks, can be represented in form of directed acyclic graph (DAG) as G (V, E), where V and E denote the set of nodes and the set of directed edges, respectively.
+A node ni ∈ V represents task number followed by some weight w (ni) depicting processing time of the task ni. 
+A directed edge (ni, nj) ∈ E represents the communication and the precedence between the two tasks ni and nj.
+Precedence (ni, nj) indicates that node nj cannot start its execution before ni. 
+An edge (ni, nj) is assigned some weight w (ni, nj) which represents the communication between ni and nj. 
+If tasks ni and nj are assigned to the same processor, communication becomes zero i.e., nj can start its execution latest by finish time (ni).
+Otherwise nj will start its execution on some other processor latest by finish time (ni) + w(ni, nj). 
+The objective is to assign N number of DAG tasks onto M number of homogeneous processors with the given precedence and communication constraints such that makespan of the DAG is minimized.
+
+Figure shows a DAG with 9 nodes (tasks) represented by oval inside which node number and processing time is shown.Each edge denotes the precedence relation between the nodes along with the communication cost. 
+
+{The Figure DAG is actually used in code. We can change it by user input graph.}
+
+{Task_id or node, Processing time, {(task_id, communication_cost)} // with other tasks.}
+
+Figure :: 
+
+{0, 2, {{1, 4}, {2, 1}, {3, 1}, {6, 20}, {4, 1}}},
+{1, 3, {{5, 1}, {6, 5}, {7, 5}}},
+{2, 3, {{6, 5}, {7, 1}}},
+{3, 4, {{7, 1}}},
+{4, 5, {{7, 10}}},
+{5, 4, {{8, 10}}},
+{6, 4, {{8, 10}}},
+{7, 4, {{8, 10}}},
+{8, 1, {}}
