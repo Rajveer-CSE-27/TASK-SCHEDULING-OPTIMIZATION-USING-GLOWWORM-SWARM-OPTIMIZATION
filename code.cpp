@@ -24,19 +24,41 @@ vector<Task> tasks = {
     {8, 1, {}}
 };
 
+vector<vector<int>> parents = {
+    {},
+    {0},
+    {0},
+    {0},
+    {0},
+    {1},
+    {0,1,2},
+    {1,2,3,4},
+    {5,6,7}
+};
+
 const int NUM_TASKS = tasks.size();
 const int NUM_PROCESSORS = 2;
 const int NUM_ITERATIONS = 100;
 const int mxIndividualTime = 5; // subject to change wrt input graph
+int cntFalseCases = 0;
+int totalCases = 0;
 
-int calculateMakespan(const vector<int>& task_assignments) {
+int calculateMakespan(const vector<int>& task_assignments, vector<bool>& visited) {
     vector<int> processor_times(NUM_PROCESSORS, 0);
     vector<int> task_finish_times(NUM_TASKS, 0);
 
     for (int i = 0; i < NUM_TASKS; ++i) {
         int task_id = task_assignments[i];
         int processor_id = i % NUM_PROCESSORS;
-
+        
+        for(int j=0; j<parents[task_id].size(); j++) {
+            if(visited[parents[task_id][j]] == false) {
+                cntFalseCases++;
+                totalCases++;
+                return INT_MAX;
+            }
+            totalCases++;
+        }
         // Calculate task start time based on parents finish times
         int start_time = 0;
         for (auto& successor : tasks[task_id].successors) {
@@ -50,24 +72,29 @@ int calculateMakespan(const vector<int>& task_assignments) {
 
         // Update processor time
         processor_times[processor_id] = max(processor_times[processor_id], task_finish_times[task_id]);
+        
+        visited[i] = true;
     }
-    return max( mxIndividualTime, *min_element(processor_times.begin(), processor_times.end()));
+    return  max(mxIndividualTime, *min_element(processor_times.begin(), processor_times.end()));
 }
 
 // Glowworm Swarm Optimization
 vector<int> gsoTaskScheduling() {
     
-    // Initialize glowworm positions randomly
+    // number of glowworms = num_iterations
     vector<vector<int>> glowworms(NUM_ITERATIONS, vector<int>(NUM_TASKS));
     
     #pragma omp parallel for
     for (int i = 0; i < NUM_ITERATIONS; ++i) {
-        // Randomly shuffle task assignments
+        
+        
         vector<int> task_order(NUM_TASKS);
         for (int j = 0; j < NUM_TASKS; ++j) {
             task_order[j] = j;
         }
         random_shuffle(task_order.begin(), task_order.end());
+        
+        
 
         // Assign shuffled tasks to glowworms
         for (int j = 0; j < NUM_TASKS; ++j) {
@@ -75,14 +102,16 @@ vector<int> gsoTaskScheduling() {
         }
     }
 
-    // Perform optimization iterations
     vector<int> best_solution(NUM_TASKS);
     int best_makespan = numeric_limits<int>::max();
     for (int iter = 0; iter < NUM_ITERATIONS; ++iter) {
-        // Evaluate current solution
-        int current_makespan = calculateMakespan(glowworms[iter]);
+        // current solution
+        vector<bool> visited(NUM_TASKS, false);
+        
+        
+        int current_makespan = calculateMakespan(glowworms[iter], visited);
 
-        // Update best solution if needed
+        // Update best solution 
         if (current_makespan < best_makespan) {
             best_makespan = current_makespan;
             best_solution = glowworms[iter];
@@ -98,13 +127,28 @@ vector<int> gsoTaskScheduling() {
 int main() {
     
     vector<int> best_schedule = gsoTaskScheduling();
+    
+   
+    
+    vector<bool> visited(NUM_TASKS, false);
+    // int ans = calculateMakespan(best_schedule, visited);
+    // // while(ans == INT_MAX) {
+    // //     vector<bool> visited2 = visited;
+    // //     best_schedule = gsoTaskScheduling();
+    // //     ans = calculateMakespan(best_schedule, visited2);
+        
+    // // }
 
+    cout << "Number of Processors : " << NUM_PROCESSORS << '\n';
     cout << "Best Task Schedule:\n";
     for (int i = 0; i < NUM_TASKS; ++i) {
         cout << "Task " << tasks[best_schedule[i]].id << " -> Processor " << i % NUM_PROCESSORS << '\n';
     }
     
-    cout << "Makespan: " << calculateMakespan(best_schedule) << '\n';
+    cout << "Makespan: " << calculateMakespan(best_schedule, visited) << '\n';
+    
+    double ans = (double)cntFalseCases/totalCases;
+    cout << "Total False Cases Fraction:: " << ans << '\n'; 
 
     return 0;
 }
